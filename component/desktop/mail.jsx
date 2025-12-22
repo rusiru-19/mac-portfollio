@@ -2,20 +2,32 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-
-export default function EmailWindow({ isOpen, onClose, height, width, setHeight, setWidth }) {
-  const [to, setTo] = useState('');
+import axios from 'axios';
+export default function EmailWindow({ isOpen, onClose, height, width, setHeight, setWidth, notification, setNotification }) {
+  const [from, setFrom] = useState('');
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
 
-  const handleSend = () => {
-    console.log('Sending Email:', { to, subject, body });
-    alert('Email sent!');
-    // Reset fields
-    setTo('');
-    setSubject('');
-    setBody('');
-    onClose();
+  const handleSend = async() => {
+    const res = axios.post('api/getmail', {
+      from: from,
+      subject: subject,
+      body: body
+    }).then((response) => {
+      if(response.status == 200){
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const notificationmsg = {  title: 'Email sent successfully!' , time: time, body: `Your email with subject "${subject}" has been sent.`};
+        setNotification(notificationmsg);
+        onClose();
+        setTimeout(() => {
+          setNotification(null);
+        }, 3000);
+      }
+    }) 
+   
+    // const notificationmsg = {  title: 'Email sent successfully!' , body: `Your email with subject "${subject}" has been sent.`};
+    // setNotification(notificationmsg);
+    // onClose();
   };
 
 
@@ -79,7 +91,6 @@ export default function EmailWindow({ isOpen, onClose, height, width, setHeight,
               />
               <span className="ml-4 font-medium text-gray-700">Compose Email</span>
             </div>
-
             {/* Compose Section */}
             <div className="flex-1 p-6 overflow-auto">
               <div className="flex flex-col gap-4">
@@ -87,8 +98,8 @@ export default function EmailWindow({ isOpen, onClose, height, width, setHeight,
                   <label className="block text-sm font-medium text-gray-600 mb-1">From:</label>
                   <input
                     type="email"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value)}
                     className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
                     placeholder="youremail@example.com"
                   />
@@ -117,17 +128,12 @@ export default function EmailWindow({ isOpen, onClose, height, width, setHeight,
                 </div>
 
                 <div className="flex justify-end gap-2 mt-2">
+          
                   <button
                     onClick={handleSend}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                    className="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-900 transition"
                   >
-                    Send
-                  </button>
-                  <button
-                    onClick={onClose}
-                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
-                  >
-                    Cancel
+                    send
                   </button>
                 </div>
               </div>

@@ -75,7 +75,7 @@ const DockIcon = ({ icon, label, mouseX, isTrash }) => {
 
 export default function MacOSDock({activeApp, setActiveApp}) {
   const [mouseX, setMouseX] = useState(null);
-  const handleGithubClick = (id) => {
+  const handleClick = (id) => {
     setActiveApp(null);
     if(activeApp === id){
       setActiveApp(null);
@@ -118,7 +118,7 @@ export default function MacOSDock({activeApp, setActiveApp}) {
       >
         <div className="flex items-end gap-6 px-2">
           {apps.map((app, i) => (
-            <button onClick={() => handleGithubClick(app.label)}>
+            <button onClick={() => handleClick(app.label)}>
             <DockIcon
               key={i}
               icon={app.icon}
