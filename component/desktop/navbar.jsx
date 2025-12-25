@@ -44,12 +44,9 @@ const MenuBarItem = ({ children, hasDropdown = false, dropdown }) => {
 
 /* ---------- Main Component ---------- */
 
-export default function MacOSMenuBar({ activeApp, setActiveApp }) {
+export default function MacOSMenuBar({ activeApp, setActiveApp, setVolumeOpen, setWifiOpen, volumeOpen, wifiOpen, setSearchOpen, searchOpen }) {
   const [time, setTime] = useState(new Date());
-  const [searchOpen, setSearchOpen] = useState(false);
   const [batteryLevel, setBatteryLevel] = useState(85);
-  const [volumeOpen, setVolumeOpen] = useState(false);
-  const [wifiOpen, setWifiOpen] = useState(false);
 
   const appNames = {
     github: 'GitHub',
@@ -84,9 +81,10 @@ export default function MacOSMenuBar({ activeApp, setActiveApp }) {
   };
 
   /* ---------- Render ---------- */
+  
 
   return (
-    <div className="w-full bg-black/30 backdrop-blur-2xl border-b border-white/10 px-4 py-1 flex items-center justify-between shadow-lg z-50">
+    <div className="w-full bg-black/30 backdrop-blur-2xl border-b border-white/10 px-4 py-1 flex items-center justify-between shadow-lg z-50" >
 
       {/* LEFT */}
       <div className="flex items-center gap-1">
@@ -151,7 +149,7 @@ export default function MacOSMenuBar({ activeApp, setActiveApp }) {
         >
           <Wifi className="w-4 h-4 text-white" />
         </button>
-
+ 
         {wifiOpen && (
           <WifiWindow setActiveApp={setActiveApp} />
         )}

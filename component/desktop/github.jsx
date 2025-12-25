@@ -128,7 +128,7 @@ export default function GithubWindow({ isOpen, onClose, height, width , setWidth
               </div>
 
               {/* Main README Content */}
-              <div className="flex-1  p-6 overflow-auto">
+              <div className="flex-1  p-6 overflow-auto overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                  <pre className="text-white/80 bg-black/20 p-4 rounded-lg overflow-auto whitespace-pre-wrap break-words">
                 <div className="flex-1 overflow-auto p-6 bg-white/10 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 text-white/80 space-y-4">
                     {/* Banner */}

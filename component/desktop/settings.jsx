@@ -1,50 +1,87 @@
 'use client';
 
 import { X, Wifi, User, Palette, Bell, Shield, Info } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function SettingsWindow({ onClose }) {
+const setIsMaximized = () =>{
+    if (width === '800px'){
+      setWidth('1200px');
+      setHeight('800px');
+    }else{
+      setWidth('800px');
+      setHeight('500px');
+    }
+  }
+  const minimizeWindow = async () => {
+    if(width == '0px'){
+      setWidth('800px');
+      setHeight('500px');
+    }else{
+      setWidth('0px');
+      setHeight('0px');
+      setTimeout(() => {
+        onClose();
+        setHeight('500px');
+      setWidth('800px');
+      }, 500);
+      
+    }
+  }
+
+  const InfoCard = ({ title, children }) => (
+  <div className="rounded-2xl bg-white/10 border border-white/20 p-5">
+    <h3 className="text-sm font-semibold text-white/80 mb-2">
+      {title}
+    </h3>
+    {children}
+  </div>
+);
+
+const ActionButton = ({ label, onClick }) => (
+  <button
+    onClick={onClick}
+    className="px-4 py-2 rounded-xl bg-blue-500/80 hover:bg-blue-500 transition text-sm font-medium"
+  >
+    {label}
+  </button>
+);
+export default function SettingsWindow({ isOpen, onClose, height, width, setHeight, setWidth }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/40"
-        onClick={onClose}
-      />
-
-      {/* Window */}
-      <div className="relative w-[900px] h-[560px] rounded-3xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-2xl overflow-hidden">
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onClose}
-              className="w-3.5 h-3.5 bg-red-500 rounded-full"
-            />
-            <div className="w-3.5 h-3.5 bg-yellow-500 rounded-full" />
-            <div className="w-3.5 h-3.5 bg-green-500 rounded-full" />
-          </div>
-          <span className="text-sm text-white/70 font-medium">
-            System Settings
-          </span>
-          <div />
-        </div>
-
-        {/* Body */}
-        <div className="flex h-full">
-
-          {/* Sidebar */}
-          <aside className="w-64 border-r border-white/10 p-4 space-y-1 bg-white/5">
-            <SidebarItem icon={User} label="Profile" />
-            <SidebarItem icon={Wifi} label="Network" />
-            <SidebarItem icon={Bell} label="Notifications" />
-            <SidebarItem icon={Palette} label="Appearance" />
-            <SidebarItem icon={Shield} label="Privacy & Security" />
-            <SidebarItem icon={Info} label="About" active />
-          </aside>
-
-          {/* Content */}
-          <main className="flex-1 p-8 text-white overflow-y-auto">
+         <AnimatePresence>
+         {isOpen && (
+           <motion.div
+             className="fixed inset-0 flex items-center justify-center z-40"
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+           >
+             <motion.div
+               layout
+               transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+               style={{
+                 width: width,
+                 height: height,
+               }}
+               className="bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden flex flex-col"
+             >
+               {/* Title Bar */}
+               <div className="flex items-center gap-2 px-4 py-3 border-b">
+                 <button
+                   onClick={onClose}
+                   className="w-3 h-3 rounded-full bg-red-500 hover:scale-125 transition"
+                 />
+                 <button 
+                 onClick={minimizeWindow}
+                 className="w-3 h-3 rounded-full bg-yellow-500 hover:scale-125 transition" />
+                 <button
+                   onClick={() => setIsMaximized((v) => !v)}
+                   className="w-3 h-3 rounded-full bg-green-500 hover:scale-125 transition"
+                 />
+                <span className="text-sm text-white/70 font-medium">
+                  System Settings
+                </span>
+               </div>
+    <main className="flex-1 p-8 text-white overflow-y-auto overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <h2 className="text-2xl font-semibold mb-6">About This Mac</h2>
 
             <div className="space-y-6">
@@ -90,41 +127,10 @@ export default function SettingsWindow({ onClose }) {
 
             </div>
           </main>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Components ---------- */
-
-const SidebarItem = ({ icon: Icon, label, active }) => (
-  <div
-    className={`flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition
-      ${active
-        ? 'bg-white/20 text-white'
-        : 'text-white/70 hover:bg-white/10'
-      }`}
-  >
-    <Icon className="w-4 h-4" />
-    <span className="text-sm font-medium">{label}</span>
-  </div>
-);
-
-const InfoCard = ({ title, children }) => (
-  <div className="rounded-2xl bg-white/10 border border-white/20 p-5">
-    <h3 className="text-sm font-semibold text-white/80 mb-2">
-      {title}
-    </h3>
-    {children}
-  </div>
-);
-
-const ActionButton = ({ label, onClick }) => (
-  <button
-    onClick={onClick}
-    className="px-4 py-2 rounded-xl bg-blue-500/80 hover:bg-blue-500 transition text-sm font-medium"
-  >
-    {label}
-  </button>
-);
+             </motion.div>
+           </motion.div>
+         )}
+       </AnimatePresence>
+     );
+   }
+   

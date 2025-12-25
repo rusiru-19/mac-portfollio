@@ -13,13 +13,16 @@ import EmailWindow from './mail';
 import LinkedInWindow from './linkedin';
 import CalendarWindow from './calendar';
 import SettingsWindow from './settings';
-
-export default function Background() {
+import TrashWindow from './trash';
+export default function Desktop() {
   const [activeApp, setActiveApp] = useState(null);
   const [height, setHeight] = useState('500px');
   const [width, setWidth] = useState('800px');
   const [notification, setNotification] = useState(null);
   const [contextMenu, setContextMenu] = useState(null);
+  const [volumeOpen, setVolumeOpen] = useState(false);
+  const [wifiOpen, setWifiOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const windows = {
     github: GithubWindow,
@@ -27,6 +30,8 @@ export default function Background() {
     linkedIn: LinkedInWindow,
     calender: CalendarWindow,
     settings: SettingsWindow,
+    trash: TrashWindow,
+    
   };
 
   const ActiveWindow = activeApp ? windows[activeApp] : null;
@@ -39,7 +44,7 @@ export default function Background() {
 
     const x = Math.min(e.clientX, window.innerWidth - menuWidth);
     const y = Math.min(e.clientY, window.innerHeight - menuHeight);
-
+    
     setContextMenu({ x, y });
   };
 
@@ -48,11 +53,19 @@ export default function Background() {
     window.addEventListener('click', close);
     return () => window.removeEventListener('click', close);
   }, []);
-
+  const handleMouseDown = (e) => {
+    if (e.button === 0) {
+      setVolumeOpen(false);
+      setWifiOpen(false);
+      setSearchOpen(false);
+  }
+  }
   return (
     <div
       className="relative min-h-screen"
       onContextMenu={handleRightClick}
+      onMouseDown={handleMouseDown}
+
     >
       {/* notification */}
       {notification && (
@@ -110,7 +123,7 @@ export default function Background() {
       />
 
       <div className="relative z-10">
-        <MacOSMenuBar setActiveApp={setActiveApp} />
+        <MacOSMenuBar setVolumeOpen={setVolumeOpen} wifiOpen={wifiOpen} volumeOpen={volumeOpen} setWifiOpen={setWifiOpen} setSearchOpen={setSearchOpen} searchOpen={searchOpen} setActiveApp={setActiveApp} />
 
         {ActiveWindow && (
           <ActiveWindow

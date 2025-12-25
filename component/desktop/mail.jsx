@@ -73,7 +73,7 @@ export default function EmailWindow({ isOpen, onClose, height, width, setHeight,
               width: width,
               height: height,
             }}
-            className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 flex flex-col overflow-hidden"
+            className="bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/30 flex flex-col overflow-hidden"
           >
             {/* Title Bar */}
             <div className="flex items-center gap-2 px-4 py-3 border-b">
@@ -89,40 +89,40 @@ export default function EmailWindow({ isOpen, onClose, height, width, setHeight,
                 onClick={() => setIsMaximized((v) => !v)}
                 className="w-3 h-3 rounded-full bg-green-500 transform transition-transform duration-200 hover:scale-125"
               />
-              <span className="ml-4 font-medium text-gray-700">Compose Email</span>
+              <span className="ml-4 font-medium text-gray-300">Compose Email</span>
             </div>
             {/* Compose Section */}
-            <div className="flex-1 p-6 overflow-auto">
+            <div className="flex-1 p-6 overflow-auto overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <div className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">From:</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">From:</label>
                   <input
                     type="email"
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400 text-gray-100"
                     placeholder="youremail@example.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Subject:</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">Subject:</label>
                   <input
                     type="text"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400 text-gray-100"
                     placeholder="Subject"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-1">Body:</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">Body:</label>
                   <textarea
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                     rows={10}
-                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400 text-gray-100"
                     placeholder="Write your email here..."
                   />
                 </div>

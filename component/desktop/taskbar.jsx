@@ -63,7 +63,6 @@ const DockIcon = ({ icon, label, mouseX, isTrash }) => {
         />
       </div>
 
-      {/* Active dot */}
       <div className="w-1 h-1 rounded-full bg-white/60 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
     </div>
   );
@@ -71,7 +70,6 @@ const DockIcon = ({ icon, label, mouseX, isTrash }) => {
 
 
 
-/* ---------------- Dock ---------------- */
 
 export default function MacOSDock({activeApp, setActiveApp}) {
   const [mouseX, setMouseX] = useState(null);
@@ -91,7 +89,8 @@ export default function MacOSDock({activeApp, setActiveApp}) {
       setActiveApp('settings');
     }else if (id === 'calender') {
       setActiveApp('calender');
-    }
+    }else if (id === 'trash') {
+      setActiveApp('trash');}
   
 
   };
@@ -132,12 +131,14 @@ export default function MacOSDock({activeApp, setActiveApp}) {
           <div className="w-px h-12 bg-white/30 mx-2 self-end" />
 
           {/* Trash */}
+          <button onClick={() => handleClick('trash')}>
           <DockIcon
             icon="/images/bin.svg"
             label="Trash"
             mouseX={mouseX}
             isTrash
           />
+          </button>
         </div>
       </div>
     </div>

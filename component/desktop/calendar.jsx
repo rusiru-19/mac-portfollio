@@ -45,7 +45,7 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
     }
   }
   return (
-    <AnimatePresence>
+      <AnimatePresence>
       {isOpen && (
         <motion.div
           className="fixed inset-0 flex items-center justify-center z-40"
@@ -60,7 +60,7 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
               width: width,
               height: height,
             }}
-            className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden flex flex-col"
+            className="bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/30 overflow-hidden flex flex-col"
           >
             {/* Title Bar */}
             <div className="flex items-center gap-2 px-4 py-3 border-b">
@@ -75,18 +75,18 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
                 onClick={() => setIsMaximized((v) => !v)}
                 className="w-3 h-3 rounded-full bg-green-500 hover:scale-125 transition"
               />
-              <span className="ml-4 font-medium text-gray-700">
+              <span className="ml-4 font-medium text-gray-300">
                 Calendar
               </span>
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b">
+            <div className="flex items-center text-gray-300 justify-between px-6 py-4 border-b">
               <button
                 onClick={() =>
                   setCurrentDate(new Date(year, month - 1, 1))
                 }
-                className="text-gray-600 hover:text-black"
+                className="text-gray-100 hover:text-gray-300"
               >
                 ←
               </button>
@@ -102,7 +102,7 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
                 onClick={() =>
                   setCurrentDate(new Date(year, month + 1, 1))
                 }
-                className="text-gray-600 hover:text-black"
+                className="text-gray-100 hover:text-gray-300"
               >
                 →
               </button>
@@ -111,14 +111,14 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
             {/* Calendar Grid */}
             <div className="flex-1 p-4">
               {/* Days */}
-              <div className="grid grid-cols-7 text-center text-sm text-gray-500 mb-2">
+              <div className="grid grid-cols-7 text-center text-sm text-gray-200 mb-2">
                 {daysShort.map((d) => (
                   <div key={d}>{d}</div>
                 ))}
               </div>
 
               {/* Dates */}
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid text-gray-400 grid-cols-7 gap-2">
                 {Array.from({ length: firstDay }).map((_, i) => (
                   <div key={`empty-${i}`} />
                 ))}
@@ -131,8 +131,8 @@ export default function CalendarWindow({ isOpen, onClose, height, width, setHeig
                       className={`h-16 rounded-xl flex items-center justify-center cursor-pointer transition
                         ${
                           isToday(day)
-                            ? 'bg-blue-600 text-white font-semibold'
-                            : 'hover:bg-gray-200'
+                            ? 'bg-blue-900  text-white font-semibold'
+                            : ''
                         }
                       `}
                     >
